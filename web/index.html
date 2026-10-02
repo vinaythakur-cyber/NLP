@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lingua-bridge</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%230b6e66%27/%3E%3Cpath d=%27M7 20h18M10 20v-6a6 6 0 0 1 12 0v6%27 stroke=%27white%27 stroke-width=%272.5%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>lingua-bridge</h1>
+  <p class="sub">Sanskrit · Hindi · English · Chinese</p>
+  <p id="status" class="status" aria-live="polite">Connecting…</p>
+</header>
+
+<main>
+  <nav class="tabs" role="tablist" aria-label="Tools">
+    <button role="tab" id="tab-translate" aria-selected="true" aria-controls="panel-translate">Translate</button>
+    <button role="tab" id="tab-convert" aria-selected="false" aria-controls="panel-convert">Convert</button>
+    <button role="tab" id="tab-detect" aria-selected="false" aria-controls="panel-detect">Detect</button>
+  </nav>
+
+  <!-- TRANSLATE -->
+  <section id="panel-translate" role="tabpanel" aria-labelledby="tab-translate">
+    <div class="row">
+      <label>From
+        <select id="t-src">
+          <option value="auto" selected>Detect automatically</option>
+          <option value="sa">Sanskrit · संस्कृतम्</option>
+          <option value="hi">Hindi · हिन्दी</option>
+          <option value="en">English</option>
+          <option value="zh">Chinese · 中文</option>
+        </select>
+      </label>
+      <button id="t-swap" class="icon" title="Swap languages" aria-label="Swap languages">⇄</button>
+      <label>To
+        <select id="t-tgt">
+          <option value="sa">Sanskrit · संस्कृतम्</option>
+          <option value="hi" selected>Hindi · हिन्दी</option>
+          <option value="en">English</option>
+          <option value="zh">Chinese · 中文</option>
+        </select>
+      </label>
+      <label id="t-zh-wrap" hidden>Chinese script
+        <select id="t-zh"><option value="simplified" selected>Simplified</option><option value="traditional">Traditional</option></select>
+      </label>
+    </div>
+    <textarea id="t-in" rows="5" placeholder="Type or paste text. Ctrl+Enter translates." aria-label="Text to translate"></textarea>
+    <div class="row">
+      <button id="t-go" class="primary">Translate</button>
+      <span class="chips" id="t-examples"></span>
+    </div>
+    <div id="t-busy" class="busy" hidden>Working… the first translation loads (and may download) the models, which can take a few minutes.</div>
+    <div id="t-err" class="error" role="alert" hidden></div>
+    <div id="t-out-wrap" hidden>
+      <div class="outhead"><h2>Translation</h2><button id="t-copy" class="ghost">Copy</button></div>
+      <div id="t-out" class="out" lang="" aria-live="polite"></div>
+      <div id="t-meta" class="meta"></div>
+      <ul id="t-warn" class="warn"></ul>
+    </div>
+  </section>
+
+  <!-- CONVERT -->
+  <section id="panel-convert" role="tabpanel" aria-labelledby="tab-convert" hidden>
+    <div class="row">
+      <label>Conversion
+        <select id="c-op">
+          <option value="transliterate" selected>Devanagari ⇄ IAST / Harvard-Kyoto / ITRANS / Roman</option>
+          <option value="hinglish_to_devanagari">Hinglish (Roman Hindi) → Devanagari</option>
+          <option value="pinyin">Chinese → Pinyin</option>
+          <option value="chinese_script">Simplified ⇄ Traditional Chinese</option>
+        </select>
+      </label>
+    </div>
+    <div class="row" id="c-opts-transliterate">
+      <label>From
+        <select id="c-from"><option value="devanagari" selected>Devanagari</option><option value="iast">IAST</option><option value="hk">Harvard-Kyoto</option><option value="itrans">ITRANS</option><option value="roman">Roman (casual)</option></select>
+      </label>
+      <label>To
+        <select id="c-to"><option value="devanagari">Devanagari</option><option value="iast" selected>IAST</option><option value="hk">Harvard-Kyoto</option><option value="itrans">ITRANS</option><option value="roman">Roman (casual)</option></select>
+      </label>
+    </div>
+    <div class="row" id="c-opts-pinyin" hidden>
+      <label>Tones
+        <select id="c-style"><option value="marks" selected>Tone marks (nǐ hǎo)</option><option value="numbers">Tone numbers (ni3 hao3)</option><option value="plain">No tones (ni hao)</option></select>
+      </label>
+    </div>
+    <div class="row" id="c-opts-script" hidden>
+      <label>Convert to
+        <select id="c-target"><option value="traditional" selected>Traditional</option><option value="simplified">Simplified</option></select>
+      </label>
+      <label>Style
+        <select id="c-variant"><option value="standard" selected>Standard</option><option value="taiwan">Taiwan</option><option value="hongkong">Hong Kong</option></select>
+      </label>
+    </div>
+    <textarea id="c-in" rows="4" aria-label="Text to convert"></textarea>
+    <div class="row"><button id="c-go" class="primary">Convert</button><span class="chips" id="c-examples"></span></div>
+    <div id="c-err" class="error" role="alert" hidden></div>
+    <div id="c-out-wrap" hidden>
+      <div class="outhead"><h2>Result</h2><button id="c-copy" class="ghost">Copy</button></div>
+      <div id="c-out" class="out"></div>
+      <div id="c-meta" class="meta"></div>
+    </div>
+  </section>
+
+  <!-- DETECT -->
+  <section id="panel-detect" role="tabpanel" aria-labelledby="tab-detect" hidden>
+    <textarea id="d-in" rows="4" aria-label="Text to inspect"></textarea>
+    <div class="row"><button id="d-go" class="primary">Detect</button><span class="chips" id="d-examples"></span></div>
+    <div id="d-err" class="error" role="alert" hidden></div>
+    <div id="d-out" hidden>
+      <h2>Result</h2>
+      <p id="d-summary" class="out small"></p>
+      <div id="d-bars"></div>
+      <p id="d-note" class="meta"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Machine translation can be wrong, most of all for Sanskrit. NLLB models are for non-commercial use.
+  <a href="/docs">API docs</a>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
