@@ -1,0 +1,116 @@
+{
+ "pre": [
+  {
+   "src": "eng_Latn",
+   "tgt": "hin_Deva",
+   "in": [
+    "This is a test sentence.",
+    "Please send an SMS to 9876543210 and an email on newemail123@xyz.com by 15th October, 2023.",
+    "Visit https://example.com/page?id=5 now (it costs 50 %).",
+    "He said “hello” – and left…"
+   ],
+   "out": [
+    "eng_Latn hin_Deva This is a test sentence .",
+    "eng_Latn hin_Deva Please send an SMS to 9876543210 and an email on < ID1 > by 15th October , 2023 .",
+    "eng_Latn hin_Deva Visit < ID1 > now ( it costs 50 % ) .",
+    "eng_Latn hin_Deva He said \" hello \" - and left ..."
+   ]
+  },
+  {
+   "src": "hin_Deva",
+   "tgt": "eng_Latn",
+   "in": [
+    "मुझे चाय पसंद है।",
+    "वह कल दिल्ली जाएगा, १२३ लोग आएंगे।",
+    "ईमेल: a.b@site.org पर भेजें"
+   ],
+   "out": [
+    "hin_Deva eng_Latn मुझे चाय पसंद है ।",
+    "hin_Deva eng_Latn वह कल दिल्ली जाएगा , 123 लोग आएंगे ।",
+    "hin_Deva eng_Latn ईमेल : < ID1 > पर भेजें"
+   ]
+  },
+  {
+   "src": "san_Deva",
+   "tgt": "hin_Deva",
+   "in": [
+    "धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः ।",
+    "रामः वनं गच्छति ।"
+   ],
+   "out": [
+    "san_Deva hin_Deva धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः ।",
+    "san_Deva hin_Deva रामः वनं गच्छति ।"
+   ]
+  },
+  {
+   "src": "hin_Deva",
+   "tgt": "san_Deva",
+   "in": [
+    "राम वन जाता है।"
+   ],
+   "out": [
+    "hin_Deva san_Deva राम वन जाता है ।"
+   ]
+  },
+  {
+   "src": "san_Deva",
+   "tgt": "eng_Latn",
+   "in": [
+    "सत्यमेव जयते ॥"
+   ],
+   "out": [
+    "san_Deva eng_Latn सत्यमेव जयते ॥"
+   ]
+  }
+ ],
+ "post": [
+  {
+   "lang": "hin_Deva",
+   "pre_in": [
+    "यह एक परीक्षण वाक्य है।",
+    "कृपया me@x.com पर संदेश भेजें ।",
+    "नमस्ते , दुनिया !"
+   ],
+   "in": [
+    "यह एक परीक्षण वाक्य है।",
+    "कृपया <ID1> पर संदेश भेजें ।",
+    "नमस्ते , दुनिया !"
+   ],
+   "out": [
+    "यह एक परीक्षण वाक्य है।",
+    "कृपया me@x.com पर संदेश भेजें।",
+    "नमस्ते, दुनिया!"
+   ]
+  },
+  {
+   "lang": "san_Deva",
+   "pre_in": [
+    "रामः वनं गच्छति ।",
+    "सत्यमेव जयते ॥"
+   ],
+   "in": [
+    "रामः वनं गच्छति ।",
+    "सत्यमेव जयते ॥"
+   ],
+   "out": [
+    "रामः वनं गच्छति।",
+    "सत्यमेव जयते॥"
+   ]
+  },
+  {
+   "lang": "eng_Latn",
+   "pre_in": [
+    "This is a test sentence .",
+    "Send mail to < ID1 > , please ."
+   ],
+   "in": [
+    "This is a test sentence .",
+    "Send mail to < ID1 > , please ."
+   ],
+   "out": [
+    "This is a test sentence.",
+    "Send mail to < ID1 >, please."
+   ]
+  }
+ ]
+}
