@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lingua-bridge"
+version = "0.1.0"
+description = "Translation, transliteration and script conversion for Sanskrit, Hindi, English and Chinese."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "lingua-bridge authors" }]
+keywords = ["nlp", "translation", "transliteration", "sanskrit", "hindi", "chinese"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Text Processing :: Linguistic",
+]
+# Core: everything needed for detection and conversion. No torch, installs in seconds.
+dependencies = [
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "typer>=0.12",
+    "indic-transliteration>=2.3.60",
+    "pypinyin>=0.50",
+    "opencc-python-reimplemented>=0.1.7",
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.29"]
+# Pure-Python helpers for the IndicTrans2 text processor (see translate/_indic_processor.py)
+indic = ["regex", "tqdm", "sacremoses", "indic-nlp-library-itt"]
+translate = [
+    "lingua-bridge[indic]",
+    "torch>=2.2",
+    "transformers>=4.51,<5",
+    "sentencepiece",
+    "protobuf",
+    "huggingface_hub",
+]
+eval = ["sacrebleu>=2.4"]
+# Optional, heavy and fragile on modern Python: neural Hinglish transliteration.
+xlit = ["ai4bharat-transliteration"]
+dev = ["pytest>=8", "httpx>=0.27", "ruff>=0.5"]
+all = ["lingua-bridge[api,translate,eval]"]
+
+[project.scripts]
+lingua = "lingua_bridge.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lingua_bridge"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not slow' -q"
+markers = ["slow: loads real models; run with LB_RUN_SLOW=1 and `pytest -m slow`"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "eval"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
